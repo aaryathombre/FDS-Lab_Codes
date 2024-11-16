@@ -1,0 +1,31 @@
+"""
+EXPERIMENT.NO:4
+TITLE:
+Write a Python program that computes the net amount of a bank account based a
+transaction log from console input. The transaction log format is shown as following:
+D 100 W 200 (Withdrawal is not allowed if balance is going negative. Write functions for withdraw and deposit). D means deposit while W means withdrawal.
+Suppose the following input is supplied to the program:
+D 300, D 300 , W 200, D 100 Then, the
+output should be: 500
+"""
+
+
+balance = 0
+n = int(input("How many transaction do you want to perform? "))
+for i in range(0,n,1):
+    transaction = str(input("Enter the transaction to be done in the following format:D-Deposit and W-Withdrawal\nD(amount) or W(amount):\n"))
+    process = transaction[0]
+    value = transaction[1:]
+    amount = int(value)
+    if(process == 'D'):
+        balance = balance + amount
+        print("Balance: ",balance)
+    elif(process == 'W'):
+        if(amount >= balance):
+            print("Insufficient Balance!")
+        else:
+            balance = balance - amount
+            print("Balance: ",balance)
+    else:
+        print("Wrong input!")
+
