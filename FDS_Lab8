@@ -1,0 +1,51 @@
+"""
+EXPERIMENT NO.: 8
+Write a Python program to store first year percentage of students in array. 
+Write function for sorting array of floating point numbers in ascending order using quick sort and display top five scores.
+"""
+
+# Input: Storing percentages of students
+percentage = []
+n = int(input("Enter the no. of students: "))
+for i in range(n):
+    student = float(input("Enter percentage: "))
+    percentage.append(student)
+print("Original Percentages: ", percentage)
+
+# Function to swap two elements in the list
+def swap(percentage, a, b):
+    percentage[a], percentage[b] = percentage[b], percentage[a]
+
+# Partition function for Quick Sort
+def partition(percentage, low, high):
+    pivot = percentage[low]
+    left = low + 1
+    right = high
+    while True:
+        while left <= right and percentage[left] <= pivot:
+            left += 1
+        while left <= right and percentage[right] >= pivot:
+            right -= 1
+        if left <= right:
+            swap(percentage, left, right)
+        else:
+            break
+    
+    swap(percentage, low, right)
+    return right
+
+# Quick Sort function
+def quick_sort(percentage, low, high):
+    if low < high:
+        pi = partition(percentage, low, high)
+        quick_sort(percentage, low, pi - 1)
+        quick_sort(percentage, pi + 1, high)
+    return percentage
+
+# Sorting the percentage list using Quick Sort
+sorted_percentages = quick_sort(percentage, 0, n - 1)
+print("Sorted Percentages: ", sorted_percentages)
+
+# Displaying the top 5 scores
+top_5_scores = sorted_percentages[-5:]  # Slicing the last 5 elements (top scores)
+print("Top 5 Scores: ", top_5_scores)
