@@ -9,76 +9,98 @@ Write a python program to find the following output:
 4)Number of students who play cricket and football but not both
 */
 
-C = [1, 2, 3, 4, 5]  # Students playing cricket
-B = [5, 6, 7, 8]  # Students playing badminton
-F = [1, 2, 7, 8, 9, 10]  # Students playing football
+# Recieving input from the user
+n1 = int(input("How many students play cricket? "))
+c = []  # List of students playing cricket
+for i in range(n1):
+    stud = int(input("Enter their roll.no: "))
+    if stud not in c:  # Avoid duplicates
+        c.append(stud)
 
-# Students playing both cricket and badminton:
-def cricket_and_badminton():
-    C_intersection_B = []
-    for i in C:
-        for j in B:
-            if i == j:
-                C_intersection_B.append(i)
-    print("Students playing both Cricket and Badminton are:", C_intersection_B)
-    return C_intersection_B
+n2 = int(input("How many students play badminton? "))
+b = []  # List of students playing badminton
+for i in range(n2):
+    stud = int(input("Enter their roll.no: "))
+    if stud not in b:  # Avoid duplicates
+        b.append(stud)
 
-# Students playing either cricket or badminton but not both
-def either_cricket_or_badminton():
-    C_intersection_B = cricket_and_badminton()
-    C_U_B = []  # Union of Cricket and Badminton
-    for i in C:
-        C_U_B.append(i)
-    for j in B:
-        if j not in C_U_B:
-            C_U_B.append(j)
+n3 = int(input("How many students play football? "))
+f = []  # List of students playing football
+for i in range(n3):
+    stud = int(input("Enter their roll.no: "))
+    if stud not in f:  # Avoid duplicates
+        f.append(stud)
 
-    C_or_B = []  # Either Cricket or Badminton, but not both
-    for i in C_U_B:
-        if i not in C_intersection_B:
-            C_or_B.append(i)
-    
-    print("Students playing either Cricket or Badminton but not both are:", C_or_B)
-    return C_or_B
+# List of students who play both cricket and badminton
+def both_c_and_b():
+    c_intersection_b = []
+    for i in c:
+        if i in b:
+            c_intersection_b.append(i)
+    return c_intersection_b
+
+# List of students who play either cricket or badminton but not both
+# Logic: c union b - c intersection
+def c_union_b():
+    cub = []
+    for i in c:
+        if i not in cub:
+            cub.append(i)
+    for j in b:
+        if j not in cub:
+            cub.append(j)
+    return cub
+
+def not_both():
+    either_cricket_or_badminton = []
+    union = c_union_b()
+    intersection = both_c_and_b()
+    for i in union:
+        if i not in intersection:
+            either_cricket_or_badminton.append(i)
+    return either_cricket_or_badminton
 
 # Number of students who play neither cricket nor badminton
+# Logic: (c union b union f) - (c union b)
+def c_union_b_union_f():
+    cubuf = c_union_b()[:]
+    for i in f:
+        if i not in cubuf:
+            cubuf.append(i)
+    return cubuf
+
 def neither_cricket_nor_badminton():
-    C_or_B = either_cricket_or_badminton()
-    C_U_B_U_F = []  # Union of Cricket, Badminton, and Football
-    for i in C_or_B:
-        C_U_B_U_F.append(i)
-    for j in F:
-        if j not in C_U_B_U_F:
-            C_U_B_U_F.append(j)
+    union = c_union_b_union_f()
+    short_union = c_union_b()
+    nCnB = [i for i in union if i not in short_union]
+    return len(nCnB)  # Return count of students who play neither cricket nor badminton
 
-    neither = []
-    for i in C_U_B_U_F:
-        if i not in C_or_B:
-            neither.append(i)
-    
-    print("Students playing neither Cricket nor Badminton are:", neither)
-    return len(neither)
+# Number of students who play cricket and football but not badminton.
+# Logic: c union b union f - b
+def not_badminton():
+    union = c_union_b_union_f()
+    not_b = [i for i in union if i not in b]
+    return len(not_b)  # Return count of students who play cricket and football but not badminton
 
-# Number of students who play cricket and football but not badminton
-def cricket_and_football_not_badminton():
-    C_intersection_B = cricket_and_badminton()
-    C_U_B_U_F = []  # Union of Cricket, Badminton, and Football
-    for i in C:
-        C_U_B_U_F.append(i)
-    for j in F:
-        if j not in C_U_B_U_F:
-            C_U_B_U_F.append(j)
+# Main execution
+to_print = int(input("Enter which operation you wish to perform:\n1. List of students who play both cricket and badminton\n2. List of students who play either cricket or badminton but not both\n3. Number of students who play neither cricket nor badminton\n4. Number of students who play cricket and football but not badminton.\n"))
 
-    not_B = []
-    for i in C_U_B_U_F:
-        if i not in B:
-            not_B.append(i)
-    
-    print("Students playing Cricket and Football but not Badminton are:", not_B)
-    return len(not_B)
+# Display the lists of students
+print("List of students playing cricket: ", c)
+print("List of students playing badminton: ", b)
+print("List of students playing football: ", f)
 
-# Call the functions to compute and print results
-cricket_and_badminton()
-either_cricket_or_badminton()
-neither_cricket_nor_badminton()
-cricket_and_football_not_badminton()
+if to_print == 1:
+    show = both_c_and_b()
+    print("List of students who play both cricket and badminton: ", show)
+elif to_print == 2:
+    show = not_both()
+    print("List of students who play either cricket or badminton but not both: ", show)
+elif to_print == 3:
+    show = neither_cricket_nor_badminton()
+    print("Number of students who play neither cricket nor badminton: ", show)
+elif to_print == 4:
+    show = not_badminton()
+    print("Number of students who play cricket and football but not badminton: ", show)
+else:
+    print("Invalid choice")
