@@ -1,0 +1,65 @@
+"""EXPERIMENT.NO:3
+TITLE:
+Write a Python program for department library which has N books, write functions for following:
+a) Delete the duplicate entries
+b) Display books in ascending order
+based on cost of books
+c) Count number of books with cost
+more than 500.
+d) Copy books in a new list which has
+cost less than 500.
+"""
+n = int(input("Enter no. of bookd: "))
+books = []
+price = []
+for i in range(n):
+    book  = str(input("Enter the name of the book: "))
+    books.append(book)
+    cost = int(input("Enter price of book: "))
+    price.append(cost)
+#print(books)
+#print(price)
+
+def duplicate():
+    duplibooks = []
+    dupliprice = []
+    for i in range(len(books)):
+       if books[i] not in duplibooks or price[i] not in dupliprice:
+           duplibooks.append(books[i])
+           dupliprice.append(price[i])
+    print(duplibooks)
+    print(dupliprice)
+duplicate()
+
+def ascending_books():
+    for i in range(len(price)):
+        for j in range(len(price)):
+            if price[i]<price[j]:
+                temp1 = price[i]
+                price[i] = price[j]
+                price[j] = temp1
+                temp2 = books[i]
+                books[i] = books[j]
+                books[j] = temp2
+    print("Books in ascending order of their price are: ",books)
+ascending_books()
+        
+        
+    
+    
+def high_price():
+    count = 0
+    for i in range(len(price)):
+        if(price[i]>500):
+            count += 1
+    print("Books having price greater than Rs.500/- are: ",count)
+high_price()
+
+def low_price():
+    affordable_books = []
+    for i in range(len(price)):
+        if(price[i] < 500 ):
+            book = books[i]
+            affordable_books.append(book)
+    print("Books having price less than Rs.500/- are: ",affordable_books)
+low_price()
