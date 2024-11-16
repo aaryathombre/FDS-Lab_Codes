@@ -1,0 +1,43 @@
+"""
+EXPERIMENT.NO:6
+Write a Python program to store first year percentage of students in array. Write 
+function for sorting array of floating point numbers in ascending order using 
+a) Selection Sort 
+b) Bubble sort and display top five scores.
+"""
+
+percentage = []
+n = int(input("Enter the no of students whose marks are to be entered:"))
+for i in range(n):
+    student = float(input("Enter percentage: "))
+    percentage.append(student)
+    
+# print(percentage)
+
+def selection_sort():
+    for i in range(0,n-1):
+        minimum = i
+        for j in range(i+1,n):
+            if(percentage[j]<percentage[minimum]):
+                minimum = j
+                
+        if(minimum != i):
+            temp = percentage[i]
+            percentage[i] = percentage[minimum]
+            percentage[minimum]  = temp
+                
+    print("using selection sort: ",percentage)
+
+selection_sort()
+
+def bubble_sort():
+    for i in range(n):
+        for j in range(n-i-1):
+            if(percentage[j]>percentage[j+1]):
+                temp = percentage[j]
+                percentage[j] = percentage[j+1]
+                percentage[j+1] = temp
+            
+    print("Using bubble sort: ",percentage)
+    
+bubble_sort()
