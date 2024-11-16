@@ -1,0 +1,100 @@
+"""
+EXPERIMENT.NO:5
+TITLE:
+a) Write a Python program to store roll numbers of student in array who attended training program in random order. 
+Write function for searching whether particular student attended training program or not, using linear search and Sentinel search.
+b) Write a Python program to store roll numbers of student array who attended training program in sorted order. 
+Write function for searching whether particular student attended training program or not, using Binary search and Fibonacci search.
+"""
+
+
+# Input and roll number array initialization
+n = int(input("Enter the no. of students who attended the program: "))
+roll_no = []
+for i in range(n):
+    roll = int(input("Enter roll.no of the student: "))
+    roll_no.append(roll)
+print(roll_no)
+
+# Linear Search Function
+def linear_search():
+    student = int(input("Enter the roll.no to be searched: "))
+    for i in range(len(roll_no)):
+        if roll_no[i] == student:
+            print("Student Present!")
+            return
+    print("Student Absent!")
+
+# Sentinel Search Function
+def sentinel_search():
+    student = int(input("Enter the roll.no to be searched: "))
+    last = roll_no[-1]  # Store the last element
+    roll_no[-1] = student  # Replace last element with the student to search
+    i = 0
+    while roll_no[i] != student:
+        i += 1
+    roll_no[-1] = last  # Restore the original last element
+    if i < n - 1 or roll_no[-1] == student:
+        print("Student Present!")
+    else:
+        print("Student Absent!")
+
+# Binary Search Function
+def binary_search():
+    student = int(input("Enter the roll.no to be searched: "))
+    # Sorting the list for binary search
+    roll_no.sort()
+    low = 0
+    high = n - 1
+    while low <= high:
+        mid = (low + high) // 2
+        if roll_no[mid] == student:
+            print("Student Present!")
+            return
+        elif roll_no[mid] < student:
+            low = mid + 1
+        else:
+            high = mid - 1
+    print("Student Absent!")
+
+# Fibonacci Search Function
+def fibonacci_search():
+    student = int(input("Enter the roll.no to be searched: "))
+    # Sorting the list before Fibonacci search
+    roll_no.sort()
+
+    fib1 = 0
+    fib2 = 1
+    fib3 = fib1 + fib2
+
+    # Find the smallest Fibonacci number greater than or equal to n
+    while fib3 < n:
+        fib1 = fib2
+        fib2 = fib3
+        fib3 = fib1 + fib2
+
+    offset = -1
+    while fib3 > 1:
+        i = min(offset + fib2, n - 1)
+        if roll_no[i] < student:
+            fib3 = fib1
+            fib1 = fib2
+            fib2 = fib3 - fib1
+            offset = i
+        elif roll_no[i] > student:
+            fib3 = fib2
+            fib1 = fib1 - fib2
+            fib2 = fib3 - fib1
+        else:
+            print("Student Present!")
+            return i
+    if fib1 and roll_no[offset + 1] == student:
+        print("Student Present!")
+        return offset + 1
+    print("Student Absent!")
+
+# Calling the functions
+linear_search()  
+sentinel_search()  
+binary_search()  
+fibonacci_search()  
