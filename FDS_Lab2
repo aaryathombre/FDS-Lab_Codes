@@ -1,0 +1,73 @@
+/*
+EXPERIMENT NO.: 02
+TITLE: Write a python program to store marks scored in sunject 'Fundamentals of Data
+Structures'by n students in the class.Write functions to compute the following:
+1)The average score of class
+2)Highest score and lowest score of class
+3)Count of students who were absent for the test
+4)Display mark with Highest frequency
+*/
+
+n = int(input("Enter the no. of students: "))
+fds = []
+print("Enter marks:\nIf absent enter -1")
+for i in range(n):
+    marks = int(input(f"Enter marks of roll.no {i+1}: "))
+    fds.append(marks)
+
+# Function to calculate average score
+def average():
+    total = 0
+    count = 0
+    for mark in fds:
+        if mark != -1:  # Exclude absent students
+            total += mark
+            count += 1
+    if count == 0:
+        print("No students attended the test.")
+    else:
+        avg = total / count
+        print(f"Average score of the class is: {avg:.2f}")
+average()
+
+# Function to find highest score
+def highest():
+    high = -1  # Start with a value lower than the lowest possible mark
+    for mark in fds:
+        if mark != -1 and mark > high:
+            high = mark
+    print(f"The highest score in the class is: {high}")
+highest()
+
+# Function to find lowest score
+def lowest():
+    low = float('inf')  # Start with an infinitely large number
+    for mark in fds:
+        if mark != -1 and mark < low:
+            low = mark
+    print(f"The lowest score in the class is: {low}")
+lowest()
+
+# Function to count absent students
+def absent():
+    not_present = fds.count(-1)
+    print(f"The number of students who were absent for the exam are: {not_present}")
+absent()
+
+# Function to find the marks with highest frequency
+def highest_frequency():
+    freq = {}  # Dictionary to store frequency of marks
+    for mark in fds:
+        if mark != -1:  # Exclude absent students
+            if mark in freq:
+                freq[mark] += 1
+            else:
+                freq[mark] = 1
+    
+    if freq:
+        max_freq = max(freq.values())  # Find the highest frequency
+        freq_marks = [mark for mark, count in freq.items() if count == max_freq]
+        print(f"The highest frequency of marks is: {max_freq} and the marks are: {freq_marks}")
+    else:
+        print("No marks to calculate frequency.")
+highest_frequency()
